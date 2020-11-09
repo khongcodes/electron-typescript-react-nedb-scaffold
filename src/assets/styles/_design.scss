@@ -1,0 +1,112 @@
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////                                                                          NOTES
+//  - design system components
+//    > Breakpoints
+//    > Layout
+//    > Colors
+//    > Type Definition
+//    > Type Styles
+//    > Animation
+
+@use "sass:color";
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////                                                                    BREAKPOINTS
+
+$mobile-breakpoint: 788px;
+
+@mixin mobile-media {
+  @media (max-width: $mobile-breakpoint) {
+    @content;
+  }
+}
+// usage:
+// @use 'design'
+// @include design.mobile-media
+//    background-color: red
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////                                                                         LAYOUT
+
+$space-unit: 8px;
+
+@function space($multiplier) {
+  @return $multiplier * $space-unit;
+}
+// usage:
+// margin-left: space(8)
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////                                                                         COLORS
+
+// $light-on-dark-button-primary: #dadada;
+// $light-on-dark-button-brighten: lighten($light-on-dark-button-primary, 100);
+// $light-on-dark-button-disabled: #6b6b6b;
+
+// $temporary-subtable-titlebar-primary: #cc0000;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////                                                                TYPE DEFINITION
+
+// $inter-font-path: "../fonts/inter/";
+
+// @font-face {
+//   font-family: "Inter";
+//   font-weight: 300;
+//   src: url("#{$inter-font-path}/Inter-Light.woff") format("woff");
+// }
+
+// @font-face {
+//   font-family: "Inter";
+//   font-weight: 400;
+//   src: url("#{$inter-font-path}/Inter-Regular.woff") format("woff");
+// }
+
+// @font-face {
+//   font-family: "Inter";
+//   font-weight: 500;
+//   src: url("#{$inter-font-path}/Inter-Medium.woff") format("woff");
+// }
+
+// @font-face {
+//   font-family: "Inter";
+//   font-weight: 600;
+//   src: url("#{$inter-font-path}/Inter-SemiBold.woff") format("woff");
+// }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////                                                                    TYPE STYLES
+
+@mixin makeBlockMargins($value) {
+  margin-block-start: $value;
+  margin-block-end: $value;
+}
+
+@mixin less-margin-type {
+  @include makeBlockMargins(0.5em);
+}
+
+// usage:
+// @include art-meta-copy-type
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////                                                                     ANIMATIONS
+
+// mixin replicating keyframe animation for different vendors
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} { @content };
+  @-moz-keyframes #{$name} { @content };
+  @-ms-keyframes #{$name} { @content };
+  @keyframes #{$name} { @content };
+}
+// usage:
+// @include keyframes(fade-in) {
+//   0%    {opacity: 0;}
+//   100%  {opacity: 1;}
+// }
+
