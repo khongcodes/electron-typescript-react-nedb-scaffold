@@ -14,10 +14,29 @@ import React from 'react';
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////                                                             COMPONENTS & LOGIC
 
-const Home = () => (
-  <div className="viewRoot viewHome" >
-    <p>I'm home</p>
-  </div>
-);
+const Home = () => {
+  const db = require("../db");
+
+  const createTag = async () => {
+    const tag = await db.tags.insert({doc: "yourdoc"});
+    console.log("tag");
+    console.log(tag);
+    return tag;
+  }
+
+  const getTags = async() => {
+    const proxies = await db.tags.find({});
+    console.log("proxies");
+    console.log(proxies);
+    return {proxies};
+  }
+
+  return (
+    <div className="viewRoot viewHome" >
+      <p>{getTags}</p>
+      <button onClick={createTag} >click</button>
+    </div>
+  )
+};
 
 export default Home;
