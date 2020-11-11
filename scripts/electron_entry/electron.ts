@@ -1,15 +1,15 @@
-// import React from 'react';
 const electron = require("electron");
-const app = electron.app;
+export const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 const path = require("path");
 const isDev = require("electron-is-dev");
 
-const { 
-  db,
-  createTag, selectAllTags
-} = require("./electron_files/db.js");
+import {db, createTag, selectAllTags} from "./electron_files/db.js"
+// const { 
+//   db,
+//   createTag, selectAllTags
+// } = require("./electron_files/db.js");
 
 let mainWindow: any;
 

@@ -1,5 +1,5 @@
 {
-  "name": "ts-elec-react",
+  "name": "electron-typescript-react-nedb-scaffold",
   "author": "Kevin Hong",
   "description": "test description",
   "version": "0.1.0",
@@ -36,7 +36,7 @@
   "scripts": {
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "compileElectronTSDev": "tsc scripts/* --outDir public/",
+    "compileEntry": "tsc scripts/electron_entry/**/* --outDir public/",
     "startR": "react-scripts start",
     "buildR": "NODE_ENV=production react-scripts build",
     "startE": "NODE_ENV=development nodemon --watch ./public/electron/**/* --watch . --exec 'electron .'",
@@ -62,8 +62,8 @@
     ]
   },
   "build": {
-    "appId": "com.electron.khongweeklyplanner",
-    "productName": "KHong Weekly Planner",
+    "appId": "com.electron.khong-etrn-scaffold",
+    "productName": "Electron-TypeScript-React-NeDB Scaffold",
     "files": [
       "build/**/*",
       "build/electron_files/**/*",
