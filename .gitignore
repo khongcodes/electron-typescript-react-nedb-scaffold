@@ -24,5 +24,4 @@ yarn-error.log*
 
 .env
 /dist
-
 package-lock.json
