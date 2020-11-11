@@ -20,6 +20,7 @@
     "history": "^5.0.0",
     "nedb-promises": "^4.1.0",
     "node-sass": "^5.0.0",
+    "nodemon": "^2.0.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^6.0.0-beta.0",
@@ -33,12 +34,14 @@
     "electron-builder": "^22.9.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "NODE_ENV=production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-dev": "NODE_ENV=development concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron-build": "NODE_ENV=production npm run build && electron-builder --dir"
+    "compileElectronTSDev": "tsc scripts/* --outDir public/",
+    "startR": "react-scripts start",
+    "buildR": "NODE_ENV=production react-scripts build",
+    "startE": "NODE_ENV=development nodemon --watch ./public/electron/**/* --watch . --exec 'electron .'",
+    "buildE": "electron-builder -c",
+    "build": "NODE_ENV=production npm run buildR && npm run buildE"
   },
   "eslintConfig": {
     "extends": [
@@ -63,7 +66,11 @@
     "productName": "KHong Weekly Planner",
     "files": [
       "build/**/*",
+      "build/electron_files/**/*",
       "node_modules/**/*"
+    ],
+    "extraResources": [
+      "database/**/*"
     ],
     "mac": {
       "category": "public.app-category.productivity"

@@ -1,7 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import electron from "electron";
 import reportWebVitals from './boilerplate/reportWebVitals';
+
+declare global {
+  interface Window {
+    electron: typeof electron;
+  }
+}
 
 ReactDOM.render(
   <React.StrictMode>

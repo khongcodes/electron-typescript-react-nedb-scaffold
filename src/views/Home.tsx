@@ -6,35 +6,32 @@
 // 1. React & packages
 
 import React from 'react';
-
+import { Link } from "react-router-dom"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////                                                                          SETUP
 
+type HomeProps = {
+  addRecord: (label: string) => void;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////                                                             COMPONENTS & LOGIC
 
-const Home = () => {
-  const db = require("../db");
-
-  const createTag = async () => {
-    const tag = await db.tags.insert({doc: "yourdoc"});
-    console.log("tag");
-    console.log(tag);
-    return tag;
-  }
-
-  const getTags = async() => {
-    const proxies = await db.tags.find({});
-    console.log("proxies");
-    console.log(proxies);
-    return {proxies};
-  }
+const Home: React.FC<HomeProps> = ({ addRecord }) => {
 
   return (
     <div className="viewRoot viewHome" >
-      <p>{getTags}</p>
-      <button onClick={createTag} >click</button>
+      <p>Home</p>
+      
+      <Link to="/about">About</Link>
+      
+      <p>
+        <button onClick={() => addRecord("11:20")}>
+          add record
+        </button>
+      </p>
     </div>
   )
 };

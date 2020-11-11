@@ -6,6 +6,7 @@
 // 1. React & packages
 
 import React from 'react';
+import { Link } from "react-router-dom";
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,6 +19,7 @@ const About = () => {
   return (
     <div className="viewRoot viewAbout">
       <p>I'm about</p>
+      <Link to="/">Home</Link>
     </div>
   )
 }
