@@ -8,30 +8,33 @@ import About from "./views/About";
 
 function App() {
   const ipcRenderer = window.electron.ipcRenderer;
-  const [records, setRecords] = useState<any>(null);
+  const [records, setRecords] = useState<any[]>([]);
 
   useEffect(() => {
     // load all tags from database
     // listener is located in public/electron.js
-    console.log("requesting all tags, to load into FC state");
-    ipcRenderer.send("requestAllTagsToReloadAppState");
-    ipcRenderer.on("returningAllTagsToReloadAppState", (event, args) => {
-      console.log("returnAllTagsToReloadAppState was successful, setting Records")
+    console.log("ipcRenderer sending request: select all tags; to load into FC state");
+    ipcRenderer.send("REQUEST_SELECT_ALL_TAGS");
+    ipcRenderer.on("S_RESPONSE_SELECT_ALL_TAGS", (event, args) => {
+      console.log("ipcRenderer received successful response: select all tags. Setting FC state (Records)")
       setRecords(args);
     });
   }, [ipcRenderer]);
 
-  const addRecord = (label: string) => {
-    console.log(`sending request to create new record with label ${label}`)
-    ipcRenderer.send("makeNewRecord", label);
-    ipcRenderer.once("makeNewRecordSuccessful", (event, args) => {
-      console.log("makeNewRecord was successful.")
+  const addRecord = (arg: string) => {
+    console.log("ipcRenderer sending request: create new record with args:");
+    console.log(arg);
+    ipcRenderer.send("REQUEST_CREATE_RECORD", arg);
+    ipcRenderer.once("S_RESPONSE_CREATE_RECORD", (event, args) => {
+      console.log("ipcRenderer received successful response: create record.")
     })
   }
 
-  const addRecordAndReloadRecords = async (label: string) => {
-    await addRecord(label);
-    ipcRenderer.send("requestAllTagsToReloadAppState");
+  const addRecordAndReloadRecords = async () => {
+    const arg = new Date().toLocaleString();
+    await addRecord(arg);
+    console.log("ipcRenderer sending request: select all tags; to load into FC state");
+    ipcRenderer.send("REQUEST_SELECT_ALL_TAGS");
   }
 
   console.log(records)
@@ -41,7 +44,12 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/about" element={<About />} />
-          <Route path="/" element={<Home addRecord={addRecordAndReloadRecords} />} />
+          <Route path="/" element={
+            <Home
+              recordLabels={records.map(a => a.label)}
+              addRecord={addRecordAndReloadRecords} 
+            />
+          }/>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Layout>

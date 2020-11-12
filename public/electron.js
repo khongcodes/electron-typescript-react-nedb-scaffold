@@ -43,10 +43,6 @@ var BrowserWindow = electron.BrowserWindow;
 var path = require("path");
 var isDev = require("electron-is-dev");
 var db_js_1 = require("./electron_files/db.js");
-// const { 
-//   db,
-//   createTag, selectAllTags
-// } = require("./electron_files/db.js");
 var mainWindow;
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -76,32 +72,35 @@ exports.app.on("activate", function () {
     }
 });
 var ipcMain = electron.ipcMain;
-ipcMain.on("requestAllTagsToReloadAppState", function (event, arg) { return __awaiter(void 0, void 0, void 0, function () {
+ipcMain.on("REQUEST_SELECT_ALL_TAGS", function (event, arg) { return __awaiter(void 0, void 0, void 0, function () {
     var tags;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log("Got request for all tags, running selectAllTags()");
+                console.log("ipcMain got request: select all tags. Running selectAllTags()");
                 return [4 /*yield*/, db_js_1.selectAllTags()];
             case 1:
                 tags = _a.sent();
-                event.reply("returningAllTagsToReloadAppState", tags);
+                console.log("ipcMain completed selectAllTags(). Returning all tags");
+                event.reply("S_RESPONSE_SELECT_ALL_TAGS", tags.proxies);
                 return [2 /*return*/];
         }
     });
 }); });
-ipcMain.on("makeNewRecord", function (event, arg) { return __awaiter(void 0, void 0, void 0, function () {
+ipcMain.on("REQUEST_CREATE_RECORD", function (event, arg) { return __awaiter(void 0, void 0, void 0, function () {
     var newTag;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log("got request to make new record with label " + arg + ", running createTag");
+                console.log("ipcMain got request: create record. Args:");
+                console.log(arg);
+                console.log("Running createTag()");
                 return [4 /*yield*/, db_js_1.createTag(arg)];
             case 1:
                 newTag = _a.sent();
-                console.log("new tag:");
+                console.log("ipcMain completed createTag(). New tag created:");
                 console.log(newTag);
-                event.reply("makeNewRecordSuccessful");
+                event.reply("S_RESPONSE_CREATE_RECORD");
                 return [2 /*return*/];
         }
     });

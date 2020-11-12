@@ -6,10 +6,6 @@ const path = require("path");
 const isDev = require("electron-is-dev");
 
 import {db, createTag, selectAllTags} from "./electron_files/db.js"
-// const { 
-//   db,
-//   createTag, selectAllTags
-// } = require("./electron_files/db.js");
 
 let mainWindow: any;
 
@@ -47,18 +43,24 @@ app.on("activate", () => {
 });
 
 
-const ipcMain = electron.ipcMain;
+import { IpcMain } from "electron";
 
-ipcMain.on("requestAllTagsToReloadAppState", async (event, arg) => {
-  console.log("Got request for all tags, running selectAllTags()");
+const ipcMain = electron.ipcMain as IpcMain;
+
+ipcMain.on("REQUEST_SELECT_ALL_TAGS", async (event, arg) => {
+  console.log("ipcMain got request: select all tags. Running selectAllTags()");
   const tags = await selectAllTags();
-  event.reply("returningAllTagsToReloadAppState", tags);
-})
+  console.log("ipcMain completed selectAllTags(). Returning all tags");
+  event.reply("S_RESPONSE_SELECT_ALL_TAGS", tags.proxies);
+});
 
-ipcMain.on("makeNewRecord", async (event, arg) => {
-  console.log(`got request to make new record with label ${arg}, running createTag`);
+ipcMain.on("REQUEST_CREATE_RECORD", async (event, arg) => {
+  console.log("ipcMain got request: create record. Args:");
+  console.log(arg)
+  console.log("Running createTag()")
   const newTag = await createTag(arg);
-  console.log("new tag:");
+  console.log("ipcMain completed createTag(). New tag created:");
   console.log(newTag);
-  event.reply("makeNewRecordSuccessful");
-})
+  event.reply("S_RESPONSE_CREATE_RECORD");
+});
+

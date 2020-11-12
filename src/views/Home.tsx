@@ -12,6 +12,7 @@ import { Link } from "react-router-dom"
 ////////////////                                                                          SETUP
 
 type HomeProps = {
+  recordLabels: any[];
   addRecord: (label: string) => void;
 }
 
@@ -19,7 +20,7 @@ type HomeProps = {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////                                                             COMPONENTS & LOGIC
 
-const Home: React.FC<HomeProps> = ({ addRecord }) => {
+const Home: React.FC<HomeProps> = ({ recordLabels, addRecord }) => {
 
   return (
     <div className="viewRoot viewHome" >
@@ -28,6 +29,12 @@ const Home: React.FC<HomeProps> = ({ addRecord }) => {
       <Link to="/about">About</Link>
       
       <p>
+        {recordLabels.map((a, index) => (
+          <React.Fragment key={index}>
+            {a}<br/>
+          </React.Fragment>
+          ))
+        }
         <button onClick={() => addRecord("11:20")}>
           add record
         </button>
